@@ -8,7 +8,8 @@
 import pandas as pd
 
 # Load PBJ staffing data for Q2 2024
-nurse_staffing = pd.read_csv('PBJ_Daily_Nurse_Staffing_Q2_2024.csv', encoding='ISO-8859-1',
+
+nurse_staffing = pd.read_csv(r'C:\Users\georg\OneDrive\Desktop\DEA\Projects\Staffing_Analysis\PBJ_Daily_Nurse_Staffing_Q2_2024.csv', encoding='ISO-8859-1',
     engine='python',
     on_bad_lines='skip')
 
