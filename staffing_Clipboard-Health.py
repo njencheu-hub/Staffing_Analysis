@@ -187,10 +187,32 @@ sorted_facilities = facility_summary.sort_values(
 
 # Histogram of Contractor % at Facility Level
 
-plt.figure(figsize=(10, 5))
-plt.hist(facility_summary['Contractor_Pct'], bins=30, color='skyblue', edgecolor='black')
-plt.title('Distribution of Contractor % Across Facilities')
-plt.xlabel('Contractor %')
-plt.ylabel('Number of Facilities')
-plt.savefig('Distribution_of_contractor_pct_across_facilities.png')
-plt.show()
+# plt.figure(figsize=(10, 5))
+# plt.hist(facility_summary['Contractor_Pct'], bins=30, color='skyblue', edgecolor='black')
+# plt.title('Distribution of Contractor % Across Facilities')
+# plt.xlabel('Contractor %')
+# plt.ylabel('Number of Facilities')
+# plt.savefig('Distribution_of_contractor_pct_across_facilities.png')
+# plt.show()
+
+# Build a Target List of High-Opportunity Facilities
+
+# These may be facilities that:
+# Use >30% contractors
+# Have a high average patient census (e.g., >200)
+
+# Target List of High-Opportunity Facilities
+
+# Based on your data, a few standout facilities meet our “high-opportunity” criteria:
+# High average daily census (proxy for size of operation)
+# High contractor percentage (showing dependence on temp staffing)
+
+# Here’s a shortlist of 3 high-opportunity targets:
+
+# PROVNUM	Facility Name	State	Avg Census	Contractor %
+# 335227	WORKMENS CIRCLE MULTICARE CENTER	NY	510	40.8% 
+# 335100	ISABELLA GERIATRIC CENTER INC	NY	683	36.6% 
+# 335462	THE PLAZA REHAB AND NURSING CENTER	NY	732	31.7% 
+
+# These facilities combine large census with high contractor % 
+# — prime candidates for Clipboard Health outreach.
