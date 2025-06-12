@@ -67,22 +67,22 @@ state_summary['Contractor_%'] = (
 # Sort by contractor percentage
 state_summary_sorted = state_summary.sort_values('Contractor_%', ascending=False)
 
-# Print top 10 states
-print(state_summary_sorted.head(10))
+# # Print top 10 states
+# print(state_summary_sorted.head(10))
 
-# Plot the top 10
-top10 = state_summary_sorted.head(10)
+# # Plot the top 10
+# top10 = state_summary_sorted.head(10)
 
-plt.figure(figsize=(10, 6))
-top10['Contractor_%'].plot(kind='bar', color='darkcyan')
-plt.title('Top 10 States by Contractor Nurse Staffing (%) – Q2 2024')
-plt.ylabel('Contractor % of Total Hours')
-plt.xlabel('State')
-plt.xticks(rotation=0)
-plt.grid(axis='y', linestyle='--', alpha=0.6)
-plt.tight_layout()
-plt.savefig('Top_10_States_by_Contractor_nurse_staffing_Q2_2024')
-plt.show()
+# plt.figure(figsize=(10, 6))
+# top10['Contractor_%'].plot(kind='bar', color='darkcyan')
+# plt.title('Top 10 States by Contractor Nurse Staffing (%) – Q2 2024')
+# plt.ylabel('Contractor % of Total Hours')
+# plt.xlabel('State')
+# plt.xticks(rotation=0)
+# plt.grid(axis='y', linestyle='--', alpha=0.6)
+# plt.tight_layout()
+# plt.savefig('Top_10_States_by_Contractor_nurse_staffing_Q2_2024')
+# # plt.show()
 
 #        Total_Contractor_Hours  Total_Employee_Hours  Contractor_%
 # STATE
@@ -97,8 +97,59 @@ plt.show()
 # NJ                  619240.06            4116536.69     13.075787
 # AK                   15640.06             110511.52     12.397831
 
-# Interpretation You Can Include in Your Memo:
+# Interpretation we could include in our Memo:
 # Vermont and Delaware lead the nation in contractor staffing proportions, 
 # with Vermont exceeding 27% contractor hours. These high-usage states are strong candidates 
 # for Clipboard Health to focus competitive sales efforts, as they demonstrate high demand for 
 # temporary staffing support.
+
+
+# Visualizing understaffed facilities helps spotlight homes that may benefit from Clipboard Health's 
+# contractor services — especially those not yet using contractors.
+
+# Plot Nursing Homes with Low Staffing and No Contractors
+# We'll identify nursing homes that:
+# Have low total nursing hours in the quarter (e.g., < 500 hours), and
+# Use no contractor hours, suggesting potential staffing gaps.
+# Then, we’ll create a bar chart of the 10 most understaffed facilities.
+
+nurse_staffing['Total_Hours'] = nurse_staffing['Total_Contractor_Hours'] + nurse_staffing['Total_Employee_Hours']
+
+# Aggregate total hours per facility across the quarter
+facility_summary = nurse_staffing.groupby('PROVNUM').agg({
+    'Total_Contractor_Hours': 'sum',
+    'Total_Employee_Hours': 'sum',
+    'Total_Hours': 'sum',
+    'PROVNAME': 'first',
+    'STATE': 'first',
+    'CITY': 'first'
+})
+
+# Filter for low-staffed facilities that don't use contractors
+understaffed = facility_summary[
+    (facility_summary['Total_Hours'] < 500) &
+    (facility_summary['Total_Contractor_Hours'] == 0)
+]
+
+# Sort and select bottom 10
+understaffed_sorted = understaffed.sort_values('Total_Hours').head(10)
+
+# Print bottom 10 facilities
+print(understaffed_sorted.head(10))
+
+# # Plot the results
+# plt.figure(figsize=(12, 6))
+# plt.bar(
+#     understaffed_sorted['PROVNAME'] + ' (' + understaffed_sorted['STATE'] + ')',
+#     understaffed_sorted['Total_Hours'],
+#     color='crimson'
+# )
+# plt.ylabel('Total Staffing Hours (Quarter)') 
+# plt.title('10 Most Understaffed Facilities Not Using Contractors - Q2 2024')
+# plt.gca().invert_xaxis()  # Highest understaffed on the right 
+# plt.xticks(rotation=45, ha='right')
+# plt.tight_layout()
+# plt.grid(axis='y', linestyle='--', alpha=0.5)  # Changed axis to 'y'
+# plt.savefig('10_most_understaffed_facilities_not_using_contractors_Q2-2024.png')
+# # plt.show()
+
